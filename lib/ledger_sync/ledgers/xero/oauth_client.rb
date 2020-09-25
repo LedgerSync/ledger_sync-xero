@@ -15,8 +15,8 @@ module LedgerSync
           email
           accounting.transactions
           accounting.contacts
-        ]
-        
+        ].freeze
+
         class RedirectURIParser
           attr_reader :uri
 
