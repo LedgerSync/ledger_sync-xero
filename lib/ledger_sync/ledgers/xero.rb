@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'ledger_sync/ledgers/xero/version'
-require 'ledger_sync/ledgers/xero/client'
+require 'xero/version'
+require 'xero/client'
 
 module LedgerSync
   module Xero
