@@ -7,13 +7,13 @@ require "ledger_sync/ledgers/xero/version"
 Gem::Specification.new do |spec|
   spec.name = "ledger_sync-xero"
   spec.version = LedgerSync::Ledgers::Xero::VERSION
-  spec.authors = ["Jozef Vaclavik"]
-  spec.email = ["jozef@hey.com"]
+  spec.authors = ["Modern Treasury"]
+  spec.email = ["ledger_sync@moderntreasury.com"]
 
   spec.summary = 'Sync common objects to accounting software.'
   spec.description = 'LedgerSync is a simple library that allows you to sync common objects to popular accounting '\
                      'software like QuickBooks Online, Xero, NetSuite, etc.'
-  spec.homepage = 'https://github.com/LedgerSync/ledger_sync'
+  spec.homepage = 'https://www.ledgersync.dev'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
