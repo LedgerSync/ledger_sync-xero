@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name = "ledger_sync-xero"
   spec.version = LedgerSync::Ledgers::Xero::VERSION
   spec.authors = ["Modern Treasury"]
-  spec.email = ["ledger_sync@moderntreasury.com"]
+  spec.email = ["ledgersync@moderntreasury.com"]
 
   spec.summary = 'Sync common objects to accounting software.'
   spec.description = 'LedgerSync is a simple library that allows you to sync common objects to popular accounting '\

@@ -38,7 +38,7 @@ module LedgerSync
                 )
               else
                 failure(
-                  # implement
+                  # TODO: implement failure handler
                 )
               end
             end
