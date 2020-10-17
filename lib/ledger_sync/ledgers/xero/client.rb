@@ -5,7 +5,9 @@ require_relative 'oauth_client'
 module LedgerSync
   module Ledgers
     module Xero
-      class Client < ::LedgerSync::Ledgers::Client
+      class Client
+        include Ledgers::Client::Mixin
+
         ROOT_URI = 'https://api.xero.com/api.xro/2.0'
         OAUTH_HEADERS = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }.freeze
         
