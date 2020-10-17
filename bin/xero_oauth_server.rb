@@ -42,45 +42,66 @@ client = LedgerSync::Ledgers::Xero::Client.new_from_env
 puts 'Go to the following URL:'
 puts client.authorization_url(redirect_uri: base_url)
 
-# Empty First Request
-session = server.accept
-session.gets
-session.close
+while (session = server.accept)
+  request = session.gets
 
-session = server.accept
-request = session.gets
+  puts request
 
-_path, query = request.split('?')
+  # 1
+  _method, full_path = request.split(' ')
 
-code = Hash[query.split('&').map { |e| e.split('=') }].fetch('code')
+  # 2
+  _path, query = full_path.split('?')
 
-client.set_credentials_from_oauth_code code: code, redirect_uri: base_url
+  params = Hash[query.split('&').map { |e| e.split('=') }] if query.present?
 
-puts "access_token: \t #{client.access_token}\n"
-puts "client_id: \t #{client.client_id}\n"
-puts "client_secret: \t #{client.client_secret}\n"
-puts "refresh_token: \t #{client.refresh_token}\n"
-puts "expires_at: \t #{client.oauth.expires_at}\n"
-puts "tenants:"
+  client.set_credentials_from_oauth_code(
+    code: params.fetch('code'),
+    redirect_uri: base_url
+  )
 
-client.tenants.each do |tenant|
-  puts "\t #{tenant['tenantName']} (#{tenant['tenantType']}) - #{tenant['tenantId']}"
+  puts "\n"
+
+  puts 'access_token:'
+  puts client.access_token
+  puts ''
+  puts 'client_id:'
+  puts client.client_id
+  puts ''
+  puts 'client_secret:'
+  puts client.client_secret
+  puts ''
+  puts 'refresh_token:'
+  puts client.refresh_token
+  puts ''
+  puts 'expires_at:'
+  puts Time&.at(client.oauth.expires_at.to_i)&.to_datetime
+  puts ''
+  puts 'tenants:'
+  client = LedgerSync::Ledgers::Xero::Client.new_from_env
+  client.tenants.each do |t|
+    puts "#{t['tenantName']} (#{t['tenantType']}) - #{t['tenantId']}"
+  end
+  puts ''
+  puts 'Done!'
+
+  status = 200
+  body = 'Done'
+  headers = {
+    'Content-Length' => body.size
+  }
+
+  session.print "HTTP/1.1 #{status}\r\n"
+
+  headers.each do |key, value|
+    session.print "#{key}: #{value}\r\n"
+  end
+
+  session.print "\r\n"
+
+  session.print body
+
+  session.close
+
+  break
 end
-
-body = 'Done'
-
-headers = {
-  'Content-Length' => body.size
-}
-
-session.print "HTTP/1.1 200\r\n"
-
-headers.each do |key, value|
-  session.print "#{key}: #{value}\r\n"
-end
-
-session.print "\r\n"
-session.print body
-session.close
-
-puts 'Session Ended'
