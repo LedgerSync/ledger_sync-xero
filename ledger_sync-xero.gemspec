@@ -2,11 +2,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "ledger_sync/ledgers/xero/version"
+require "ledger_sync/xero/version"
 
 Gem::Specification.new do |spec|
   spec.name = "ledger_sync-xero"
-  spec.version = LedgerSync::Ledgers::Xero::VERSION
+  spec.version = LedgerSync::Xero::VERSION
   spec.authors = ["Modern Treasury"]
   spec.email = ["ledgersync@moderntreasury.com"]
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency('ledger_sync', '~> 1.4')
+  spec.add_development_dependency('ledger_sync', '~> 1.4.4')
   spec.add_development_dependency('bundler', '~> 2.1')
   spec.add_development_dependency('rake', '~> 13.0')
   spec.add_development_dependency('rspec', '~> 3.2')

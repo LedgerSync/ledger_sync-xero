@@ -37,7 +37,7 @@ client_id = ENV.fetch('CLIENT_ID')
 
 raise 'CLIENT_ID not set in ../.env' if client_id.blank?
 
-client = LedgerSync::Ledgers::Xero::Client.new_from_env
+client = LedgerSync::Xero::Client.new_from_env
 
 puts 'Go to the following URL:'
 puts client.authorization_url(redirect_uri: base_url)
@@ -78,7 +78,7 @@ while (session = server.accept)
   puts Time&.at(client.oauth.expires_at.to_i)&.to_datetime
   puts ''
   puts 'tenants:'
-  client = LedgerSync::Ledgers::Xero::Client.new_from_env
+  client = LedgerSync::Xero::Client.new_from_env
   client.tenants.each do |t|
     puts "#{t['tenantName']} (#{t['tenantType']}) - #{t['tenantId']}"
   end
