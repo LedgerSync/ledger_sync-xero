@@ -1,33 +1,9 @@
-GIT
-  remote: https://github.com/LedgerSync/ledger_sync
-  revision: d2b31e5a03748d1cd2e557d1e2070b565b9bc104
-  branch: rj/spec-support
-  specs:
-    ledger_sync (1.4.4)
-      activemodel
-      colorize
-      coveralls (~> 0.8.23)
-      dotenv (~> 2.7.6)
-      dry-schema (~> 1.5.4)
-      dry-validation (~> 1.5.6)
-      faraday
-      faraday-detailed_logger
-      faraday_middleware
-      fingerprintable (>= 1.2.1)
-      netsuite (~> 0.8.6)
-      nokogiri
-      oauth2
-      pd_ruby
-      resonad
-      simply_serializable (>= 1.5.1)
-      stripe (~> 5.26.0)
-
 PATH
   remote: .
   specs:
     ledger_sync-xero (0.1.0)
       dotenv
-      ledger_sync
+      ledger_sync (~> 1.5)
       nokogiri
       oauth2
 
@@ -125,6 +101,24 @@ GEM
     iniparse (1.5.0)
     json (2.3.1)
     jwt (2.2.2)
+    ledger_sync (1.5.1)
+      activemodel
+      colorize
+      coveralls (~> 0.8.23)
+      dotenv (~> 2.7.6)
+      dry-schema (~> 1.5.4)
+      dry-validation (~> 1.5.6)
+      faraday
+      faraday-detailed_logger
+      faraday_middleware
+      fingerprintable (>= 1.2.1)
+      netsuite (~> 0.8.6)
+      nokogiri
+      oauth2
+      pd_ruby
+      resonad
+      simply_serializable (>= 1.5.1)
+      stripe (~> 5.26.0)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
     multi_json (1.15.0)
@@ -228,7 +222,6 @@ DEPENDENCIES
   bundler (~> 2.1)
   byebug
   factory_bot (~> 6.1.0)
-  ledger_sync!
   ledger_sync-xero!
   overcommit (~> 0.57.0)
   rake (~> 13.0)
