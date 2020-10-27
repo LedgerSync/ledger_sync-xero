@@ -108,7 +108,7 @@ module LedgerSync
         JSON.parse(response.body)
       end
 
-      def request(body: nil, headers: {}, method:, url:)
+      def request(method:, url:, body: nil, headers: {})
         Request.new(
           client: self,
           body: body,
@@ -143,7 +143,7 @@ module LedgerSync
         oauth_token
       end
 
-      def set_credentials_from_oauth_token(token:) # rubocop:disable Metrics/CyclomaticComplexity,Naming/AccessorMethodName
+      def set_credentials_from_oauth_token(token:) # rubocop:disable Metrics/CyclomaticComplexity,Naming/AccessorMethodName,Metrics/PerceivedComplexity
         @previous_access_tokens << access_token if access_token.present?
         @access_token = token.token
 

@@ -26,7 +26,7 @@ module LedgerSync
       def refresh!
         oauth.refresh!
       rescue OAuth2::Error => e
-        raise e #parse_error(error: e)
+        raise e # parse_error(error: e)
       end
 
       private

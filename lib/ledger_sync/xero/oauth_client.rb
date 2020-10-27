@@ -72,7 +72,7 @@ module LedgerSync
         client.auth_code
       end
 
-        def client
+      def client
         @client ||= OAuth2::Client.new(
           client_id,
           client_secret,

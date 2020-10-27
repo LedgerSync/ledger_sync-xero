@@ -29,16 +29,14 @@ module LedgerSync
             if response.success?
               success(
                 resource: deserialized_resource(
-                  response: response.body.dig(
-                    ledger_resource_type_for_path.to_s.capitalize
-                  )&.first
+                  response: response.body[ledger_resource_type_for_path.to_s.capitalize]&.first
                 ),
                 response: response
               )
             else
-              failure(
-                # TODO: implement failure handler
-              )
+              failure
+              # TODO: implement failure handler
+
             end
           end
 
