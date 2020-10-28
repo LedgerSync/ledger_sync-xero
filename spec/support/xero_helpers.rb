@@ -82,6 +82,35 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     record.to_s.gsub(/^xero_/, '')
   end
 
+  def stub_client_refresh
+    stub_request(:post, 'https://identity.xero.com/connect/token')
+      .with(
+        body: {
+          'client_id' => 'client_id',
+          'client_secret' => 'client_secret',
+          'grant_type' => 'refresh_token',
+          'refresh_token' => 'refresh_token'
+        },
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'Content-Type' => 'application/x-www-form-urlencoded',
+          'User-Agent' => /Faraday v[0-9]+\.[0-9]+\.[0-9]+/
+        }
+      )
+      .to_return(
+        status: 200,
+        body: { 'token_type' => 'bearer',
+                'expires_in' => 3600,
+                'refresh_token' => 'NEW_REFRESH_TOKEN',
+                'x_refresh_token_expires_in' => 1_569_480_516,
+                'access_token' => 'NEW_ACCESS_TOKEN' }.to_json,
+        headers: {
+          'Content-Type' => 'application/json'
+        }
+      )
+  end
+
   def stub_create_for_record
     send("stub_#{xero_resource_type}_create")
   end
