@@ -22,7 +22,7 @@ module LedgerSync
           end
 
           def ledger_resource_type_for_path
-            xero_resource_type.pluralize
+            Util::StringHelpers.camelcase(xero_resource_type.pluralize)
           end
 
           def response_to_operation_result(response:)

@@ -3,12 +3,8 @@
 module LedgerSync
   module Xero
     class Contact < Xero::Resource
-      attribute :Name, type: LedgerSync::Type::String
-      attribute :EmailAddress, type: LedgerSync::Type::String
-
-      def name
-        self.Name
-      end
+      attribute :Name, type: Type::String
+      attribute :EmailAddress, type: Type::String
     end
   end
 end

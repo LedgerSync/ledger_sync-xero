@@ -1,0 +1,203 @@
+# frozen_string_literal: true
+
+# Define globally so it's only evaluated once.
+
+module LedgerSync
+  module Test
+    class XeroRecord < Record
+      def id
+        hash.fetch(xero_record_type.pluralize, []).first.fetch("#{xero_record_type}ID", nil)
+      end
+
+      def xero_record_type
+        Util::StringHelpers.camelcase(record)
+      end
+    end
+  end
+end
+
+XERO_RECORD_COLLECTION = LedgerSync::Test::RecordCollection.new(
+  dir: File.join(LedgerSync::Xero.root, 'spec/support/records'),
+  record_class: LedgerSync::Test::XeroRecord
+)
+
+module XeroHelpers # rubocop:disable Metrics/ModuleLength
+  def authorized_headers(override = {}, write: false)
+    if write
+      override = override.merge(
+        'Content-Type' => 'application/json'
+      )
+    end
+
+    {
+      'Accept' => '*/*',
+      'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'Authorization' =>
+        /
+        Bearer
+        \s
+        .+
+        /x,
+      'User-Agent' => /.*/
+    }.merge(override)
+  end
+
+  def api_record_url(args = {})
+    _record = args.fetch(:record)
+    id      = args.fetch(:id, nil)
+    params  = args.fetch(:params, {})
+
+    resource_endpoint = LedgerSync::Util::StringHelpers.camelcase(
+      xero_client.class.ledger_resource_type_for(resource_class: resource.class).pluralize
+    )
+    ret = "https://api.xero.com/api.xro/2.0/#{resource_endpoint}"
+
+    if id.present?
+      ret += '/' unless ret.end_with?('/')
+      ret += id.to_s
+    end
+
+    if params.present?
+      uri = URI(ret)
+      uri.query = params.to_query
+      ret = uri.to_s
+    end
+
+    ret
+  end
+
+  def xero_client
+    LedgerSync.ledgers.xero.new_from_env
+  end
+
+  def xero_env?
+    @xero_env ||= ENV.key?('USE_DOTENV_ADAPTOR_SECRETS')
+  end
+
+  def xero_records
+    @xero_records ||= XERO_RECORD_COLLECTION
+  end
+
+  def xero_resource_type
+    record.to_s.gsub(/^xero_/, '')
+  end
+
+  def stub_create_for_record
+    send("stub_#{xero_resource_type}_create")
+  end
+
+  def stub_create_request(id:, url:)
+    stub_request(:post, url)
+      .with(
+        headers: authorized_headers(write: true)
+      )
+      .to_return(
+        status: 200,
+        body: '',
+        headers: {
+          'Location': "#{url}/#{id}"
+        }
+      )
+  end
+
+  def stub_delete_for_record
+    send("stub_#{xero_resource_type}_delete")
+  end
+
+  def stub_delete_request(url:)
+    stub_request(:delete, url)
+      .with(
+        headers: authorized_headers
+      )
+      .to_return(
+        status: 204,
+        body: '',
+        headers: {}
+      )
+  end
+
+  def stub_find_for_record(params: {})
+    send("stub_#{xero_resource_type}_find", params)
+  end
+
+  def stub_find_request(response_body:, url:)
+    stub_request(:get, url)
+      .to_return(
+        status: 200,
+        body: (response_body.is_a?(Hash) ? response_body.to_json : response_body)
+      )
+  end
+
+  def stub_search_for_record
+    send("stub_#{xero_resource_type}_search")
+  end
+
+  def stub_update_for_record(params: {})
+    send("stub_#{xero_resource_type}_update", params)
+  end
+
+  def stub_update_request(url:)
+    stub_request(:patch, url)
+      .with(
+        headers: authorized_headers(write: true)
+      )
+      .to_return(
+        status: 200,
+        body: '',
+        headers: {
+          'Location': url
+        }
+      )
+  end
+
+  # Dynamically define helpers
+  XERO_RECORD_COLLECTION.all.each do |record, opts|
+    record = record.gsub('/', '_')
+    url_method_name = "#{record}_url"
+
+    define_method(url_method_name) do |**keywords|
+      api_record_url(
+        **{
+          record: record
+        }.merge(keywords)
+      )
+    end
+
+    define_method("stub_#{record}_create") do
+      stub_create_request(
+        id: opts.id,
+        url: send(url_method_name)
+      )
+    end
+
+    define_method("stub_#{record}_delete") do
+      stub_delete_request(
+        url: send(
+          url_method_name,
+          id: opts.id
+        )
+      )
+    end
+
+    define_method("stub_#{record}_find") do |params = {}|
+      stub_find_request(
+        response_body: opts.hash,
+        url: send(
+          url_method_name,
+          params: params,
+          id: opts.id
+        )
+      )
+    end
+
+    define_method("stub_#{record}_update") do |params = {}|
+      stub_update_request(
+        url: send(
+          url_method_name,
+          params: params,
+          id: opts.id
+        )
+      )
+    end
+  end
+end

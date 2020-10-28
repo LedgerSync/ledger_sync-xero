@@ -3,15 +3,15 @@
 # Setup
 #
 # gem install bundler
-# Ensure you have http://localhost:5678 (or PORT) as a Redirect URI in QBO.
+# Ensure you have http://localhost:5678 (or PORT) as a Redirect URI in Xero.
 
 require 'bundler/inline'
 
 gemfile do
   source 'https://rubygems.org'
   gem 'dotenv'
-  gem 'ledger_sync'
-  gem 'ledger_sync-xero', path: '../'
+  # gem 'ledger_sync', git: 'https://www.github.com/LedgerSync/ledger_sync', branch: 'feature/core-tests'
+  gem 'ledger_sync-xero', path: './'
   gem 'rack'
   gem 'pd_ruby'
 end
@@ -22,7 +22,7 @@ require 'pd_ruby'
 require 'socket'
 require 'dotenv'
 require 'rack'
-require 'ledger_sync'
+require 'ledger_sync/xero'
 require 'rack/lobster'
 Dotenv.load
 
@@ -33,9 +33,9 @@ base_url = "http://localhost:#{port}"
 
 puts "Listening at #{base_url}"
 
-client_id = ENV.fetch('CLIENT_ID')
+client_id = ENV.fetch('XERO_CLIENT_ID')
 
-raise 'CLIENT_ID not set in ../.env' if client_id.blank?
+raise 'XERO_CLIENT_ID not set in ../.env' if client_id.blank?
 
 client = LedgerSync::Xero::Client.new_from_env
 

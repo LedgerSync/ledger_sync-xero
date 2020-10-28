@@ -18,28 +18,18 @@ module LedgerSync
                   :refresh_token,
                   :refresh_token_expires_at,
                   :tenant_id,
-                  :root_uri,
                   :update_dotenv
 
-      def initialize(
-        access_token:,
-        client_id:,
-        client_secret:,
-        refresh_token:,
-        tenant_id:,
-        update_dotenv: true
-      )
-        @access_token = access_token
-        @client_id = client_id
-        @client_secret = client_secret
-        @refresh_token = refresh_token
-        @update_dotenv = update_dotenv
-        @tenant_id = tenant_id
+      def initialize(args = {})
+        @access_token = args.fetch(:access_token)
+        @client_id = args.fetch(:client_id)
+        @client_secret = args.fetch(:client_secret)
+        @refresh_token = args.fetch(:refresh_token)
+        @tenant_id = args.fetch(:tenant_id)
+        @update_dotenv = args.fetch(:update_dotenv, true)
 
         @previous_access_tokens = []
         @previous_refresh_tokens = []
-
-        @root_uri = ROOT_URI
 
         update_secrets_in_dotenv if update_dotenv
       end
@@ -121,11 +111,11 @@ module LedgerSync
       def self.new_from_env(**override)
         new(
           {
-            access_token: ENV.fetch('ACCESS_TOKEN'),
-            client_id: ENV.fetch('CLIENT_ID'),
-            client_secret: ENV.fetch('CLIENT_SECRET'),
-            refresh_token: ENV.fetch('REFRESH_TOKEN'),
-            tenant_id: ENV.fetch('TENANT_ID')
+            access_token: ENV.fetch('XERO_ACCESS_TOKEN'),
+            client_id: ENV.fetch('XERO_CLIENT_ID'),
+            client_secret: ENV.fetch('XERO_CLIENT_SECRET'),
+            refresh_token: ENV.fetch('XERO_REFRESH_TOKEN'),
+            tenant_id: ENV.fetch('XERO_TENANT_ID')
           }.merge(override)
         )
       end
@@ -160,18 +150,20 @@ module LedgerSync
         update_secrets_in_dotenv if update_dotenv
       end
 
-      def update_secrets_in_dotenv
+      def update_secrets_in_dotenv # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
         return if ENV['TEST_ENV'] && !ENV['USE_DOTENV_ADAPTOR_SECRETS']
 
         filename = File.join(Dir.pwd, '.env')
         return unless File.exist?(filename)
 
+        prefix = 'XERO_'
+
         Tempfile.open(".#{File.basename(filename)}", File.dirname(filename)) do |tempfile|
           File.open(filename).each do |line|
             env_key = line.split('=').first
-            client_method = env_key.downcase
+            client_method = env_key.split(prefix).last.downcase
 
-            if respond_to?(client_method)
+            if line =~ /\A#{prefix}/ && respond_to?(client_method)
               env_value = ENV[env_key]
               new_value = send(client_method)
               tempfile.puts "#{env_key}=#{new_value}"
@@ -189,6 +181,10 @@ module LedgerSync
         end
 
         Dotenv.load
+      end
+
+      def self.ledger_attributes_to_save
+        %i[access_token expires_at refresh_token refresh_token_expires_at]
       end
     end
   end
