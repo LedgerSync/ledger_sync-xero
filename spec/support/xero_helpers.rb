@@ -165,17 +165,17 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     send("stub_#{xero_resource_type}_update", params)
   end
 
-  def stub_update_request(url:)
-    stub_request(:patch, url)
+  def stub_update_request(args = {})
+    body = args.fetch(:body, '')
+    url = args.fetch(:url)
+
+    stub_request(:post, url)
       .with(
         headers: authorized_headers(write: true)
-      )
+        )
       .to_return(
         status: 200,
-        body: '',
-        headers: {
-          'Location': url
-        }
+        body: body.to_json
       )
   end
 
@@ -219,14 +219,17 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
       )
     end
 
-    define_method("stub_#{record}_update") do |params = {}|
+    define_method("stub_#{record}_update") do |args = {}|
+      params = args.fetch(:params, {})
+      body = args.fetch(:body, opts.hash)
       stub_update_request(
+        body: body,
         url: send(
           url_method_name,
-          params: params,
-          id: opts.id
+          params: params
+          # id: opts.id
         )
       )
-    end
+      end
   end
 end

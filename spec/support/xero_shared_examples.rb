@@ -13,6 +13,7 @@ RSpec.shared_examples 'a xero operation' do
       described_class.inferred_resource_class.resource_type.to_s
     end
   end
+
   let(:request_params) { described_class.new(client: client, resource: nil).request_params }
 
   before do
@@ -44,8 +45,7 @@ RSpec.shared_examples 'a xero operation' do
         stub_find_for_record
       when :update
         resource.ledger_id = xero_records.send(record).id
-        stub_find_for_record
-        stub_update_for_record(params: request_params)
+        stub_update_for_record
       end
     end
 
