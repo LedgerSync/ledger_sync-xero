@@ -25,14 +25,14 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
   def authorized_headers(override = {}, write: false)
     if write
       override = override.merge(
-        'Content-Type' => 'application/json'
+        "Content-Type" => "application/json"
       )
     end
 
     {
-      'Accept' => '*/*',
-      'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-      'Authorization' =>
+      "Accept" => "application/json",
+      "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+      "Authorization" =>
         /
         Bearer
         \s
@@ -115,17 +115,14 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     send("stub_#{xero_resource_type}_create")
   end
 
-  def stub_create_request(id:, url:)
+  def stub_create_request(body:, url:)
     stub_request(:post, url)
       .with(
         headers: authorized_headers(write: true)
       )
       .to_return(
         status: 200,
-        body: '',
-        headers: {
-          'Location': "#{url}/#{id}"
-        }
+        body: body.to_json
       )
   end
 
@@ -194,7 +191,7 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
 
     define_method("stub_#{record}_create") do
       stub_create_request(
-        id: opts.id,
+        body: opts.hash,
         url: send(url_method_name)
       )
     end
@@ -227,9 +224,8 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
         url: send(
           url_method_name,
           params: params
-          # id: opts.id
         )
       )
-      end
+    end
   end
 end

@@ -36,7 +36,6 @@ RSpec.shared_examples 'a xero operation' do
       case described_class.operation_method
       when :create
         stub_create_for_record
-        stub_find_for_record
       when :delete
         resource.ledger_id = xero_records.send(record).id
         stub_delete_for_record
