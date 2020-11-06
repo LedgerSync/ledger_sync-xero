@@ -17,10 +17,6 @@
 gemfile: Gemfile
 
 PreCommit:
-  ALL:
-    exclude:
-      - 'documentation/site/assets/webfonts/**/*.svg'
-
   RuboCop:
     command: ['bundle', 'exec', 'rubocop']
     enabled: true
