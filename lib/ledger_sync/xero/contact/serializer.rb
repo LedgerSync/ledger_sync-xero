@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module LedgerSync
+  module Xero
+    class Contact
+      class Serializer < Xero::Serializer
+        attribute 'ContactID',
+                  resource_attribute: :ledger_id
+        attribute :Name
+        attribute :EmailAddress
+      end
+    end
+  end
+end
