@@ -10,21 +10,24 @@ require 'bundler/inline'
 gemfile do
   source 'https://rubygems.org'
   gem 'dotenv'
-  # gem 'ledger_sync', git: 'https://www.github.com/LedgerSync/ledger_sync', branch: 'feature/core-tests'
+  # gem 'ledger_sync', git: 'https://www.github.com/LedgerSync/ledger_sync', branch: 'feature/dotenv'
+  gem 'ledger_sync', path: '../ledger_sync'
   gem 'ledger_sync-xero', path: './'
   gem 'rack'
   gem 'pd_ruby'
+  gem 'byebug'
 end
 
 puts 'Gems installed and loaded!'
 
 require 'pd_ruby'
+require 'byebug'
 require 'socket'
 require 'dotenv'
 require 'rack'
 require 'ledger_sync/xero'
 require 'rack/lobster'
-Dotenv.load
+Dotenv.load('.env.local')
 
 port = ENV.fetch('PORT', 5678)
 server = TCPServer.new(port)

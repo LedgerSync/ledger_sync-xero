@@ -7,10 +7,4 @@ require 'climate_control'
 
 LedgerSync::Test::Support.setup('ledger_sync/xero')
 
-Dotenv.load(
-  LedgerSync::Xero.root('.env.test.local'),
-  LedgerSync::Xero.root('.env.test'),
-  LedgerSync::Xero.root('.env')
-)
-
 setup_client_qa_support(LedgerSync::Xero::Client)

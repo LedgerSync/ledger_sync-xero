@@ -98,4 +98,8 @@ RSpec.describe LedgerSync::Xero::Client do
 
     it { expect(subject).to eq(%i[access_token expires_at refresh_token refresh_token_expires_at]) }
   end
+
+  describe '.update_secrets_in_dotenv' do
+    it { expect(subject).to respond_to(:update_secrets_in_dotenv) }
+  end
 end
