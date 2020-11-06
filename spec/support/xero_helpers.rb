@@ -25,14 +25,14 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
   def authorized_headers(override = {}, write: false)
     if write
       override = override.merge(
-        "Content-Type" => "application/json"
+        'Content-Type' => 'application/json'
       )
     end
 
     {
-      "Accept" => "application/json",
-      "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-      "Authorization" =>
+      'Accept' => 'application/json',
+      'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+      'Authorization' =>
         /
         Bearer
         \s
@@ -80,6 +80,20 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
 
   def xero_resource_type
     record.to_s.gsub(/^xero_/, '')
+  end
+
+  def stub_get_token
+    stub_request(:post, 'https://identity.xero.com/connect/token')
+      .with(
+        body: {"client_id"=>"client_id", "client_secret"=>"client_secret", "code"=>"token_code", "grant_type"=>"authorization_code", "redirect_uri"=>"redirect_uri"},
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'Content-Type' => 'application/x-www-form-urlencoded',
+          'User-Agent' => /Faraday v[0-9]+\.[0-9]+\.[0-9]+/
+        }
+      ).to_return(status: 200, body: "", headers: {})
+
   end
 
   def stub_client_refresh
@@ -169,7 +183,7 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     stub_request(:post, url)
       .with(
         headers: authorized_headers(write: true)
-        )
+      )
       .to_return(
         status: 200,
         body: body.to_json
