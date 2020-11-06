@@ -16,8 +16,7 @@ RSpec.describe LedgerSync::Xero::Client do
   let(:refresh_token_expires_at) { nil }
   let(:test) { true }
   let(:client) { xero_client }
-
-  subject do
+  let(:initialized_client) do
     described_class.new(
       access_token: access_token,
       client_id: client_id,
@@ -26,6 +25,8 @@ RSpec.describe LedgerSync::Xero::Client do
       refresh_token: refresh_token
     )
   end
+
+  subject { initialized_client }
 
   describe '#find' do
     it { expect(subject).to respond_to(:find) }
@@ -57,6 +58,38 @@ RSpec.describe LedgerSync::Xero::Client do
       subject.refresh!
       expect(subject.expires_at).to be_a(DateTime)
       expect(subject.refresh_token_expires_at).to be_a(DateTime)
+    end
+  end
+
+  describe '#set_credentials_from_oauth_code' do
+    let(:response_hash) { { 'foo' => 'bar' } }
+    let(:code) { 'token_code' }
+    let(:redirect_uri) { 'redirect_uri' }
+    let(:new_access_token) { 'new_access_token' }
+    let(:new_refresh_token) { 'new_refresh_token' }
+
+    subject { initialized_client.set_credentials_from_oauth_code(code: code, redirect_uri: redirect_uri) }
+
+    it do
+      stub_get_token(
+        response_body_overrides: {
+          access_token: new_access_token,
+          refresh_token: new_refresh_token
+        }
+      )
+      expect(subject).to be_a(OAuth2::AccessToken)
+      expect(initialized_client.access_token).to eq('new_access_token')
+    end
+  end
+
+  describe '#tenants' do
+    let(:response_hash) { { 'foo' => 'bar' } }
+
+    subject { initialized_client.tenants }
+
+    it do
+      stub_request(:get, 'https://api.xero.com/connections').to_return(status: 200, body: response_hash.to_json)
+      expect(subject).to eq(response_hash)
     end
   end
 

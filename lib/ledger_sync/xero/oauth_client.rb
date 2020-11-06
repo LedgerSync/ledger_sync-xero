@@ -91,8 +91,8 @@ module LedgerSync
 
       def self.new_from_env
         new(
-          client_id: ENV.fetch('CLIENT_ID'),
-          client_secret: ENV.fetch('CLIENT_SECRET')
+          client_id: ENV.fetch('XERO_CLIENT_ID'),
+          client_secret: ENV.fetch('XERO_CLIENT_SECRET')
         )
       end
     end

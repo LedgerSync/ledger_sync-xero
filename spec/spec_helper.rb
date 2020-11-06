@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'ledger_sync/test/support'
+require 'climate_control'
 
 LedgerSync::Test::Support.setup('ledger_sync/xero')
 

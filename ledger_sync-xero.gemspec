@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('bump', '~> 0.9.0')
   spec.add_development_dependency('bundler', '~> 2.1')
   spec.add_development_dependency('byebug')
+  spec.add_development_dependency('climate_control')
   spec.add_development_dependency('coveralls', '~> 0.8.23')
   spec.add_development_dependency('factory_bot', '~> 6.1.0')
   spec.add_development_dependency('overcommit', '~> 0.57.0')

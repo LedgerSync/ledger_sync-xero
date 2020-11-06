@@ -66,6 +66,12 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     ret
   end
 
+  def response_headers(overrides = {})
+    {
+      'Content-Type' => 'application/json'
+    }.merge(overrides)
+  end
+
   def xero_client
     LedgerSync.ledgers.xero.new_from_env
   end
@@ -82,18 +88,36 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     record.to_s.gsub(/^xero_/, '')
   end
 
-  def stub_get_token
+  def stub_get_token(args = {})
+    response_body_overrides = args.fetch(:response_body_overrides, {})
+
     stub_request(:post, 'https://identity.xero.com/connect/token')
       .with(
-        body: {"client_id"=>"client_id", "client_secret"=>"client_secret", "code"=>"token_code", "grant_type"=>"authorization_code", "redirect_uri"=>"redirect_uri"},
+        body: {
+          'client_id' => 'client_id',
+          'client_secret' => 'client_secret',
+          'code' => 'token_code',
+          'grant_type' => 'authorization_code',
+          'redirect_uri' => 'redirect_uri'
+        },
         headers: {
           'Accept' => '*/*',
           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
           'Content-Type' => 'application/x-www-form-urlencoded',
           'User-Agent' => /Faraday v[0-9]+\.[0-9]+\.[0-9]+/
         }
-      ).to_return(status: 200, body: "", headers: {})
-
+      ).to_return(
+        status: 200,
+        body: {
+          'id_token' => 'new_id_token',
+          'access_token' => 'new_access_token',
+          'expires_in' => 1800,
+          'token_type' => 'Bearer',
+          'refresh_token' => 'new_refresh_token',
+          'scope' => 'openid profile email accounting.transactions accounting.contacts offline_access'
+        }.with_indifferent_access.merge(response_body_overrides).to_json,
+        headers: response_headers
+      )
   end
 
   def stub_client_refresh
@@ -119,9 +143,7 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
                 'refresh_token' => 'NEW_REFRESH_TOKEN',
                 'x_refresh_token_expires_in' => 1_569_480_516,
                 'access_token' => 'NEW_ACCESS_TOKEN' }.to_json,
-        headers: {
-          'Content-Type' => 'application/json'
-        }
+        headers: response_headers
       )
   end
 

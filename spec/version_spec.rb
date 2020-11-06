@@ -3,5 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe LedgerSync::Xero do
-  it { should be_const_defined(:VERSION) }
+  it { expect(described_class).to respond_to(:version) }
+  it { expect(described_class.version(pre: true)).to include('.pre.') }
 end
