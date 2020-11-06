@@ -24,3 +24,6 @@ PreCommit:
 
   TrailingWhitespace:
     enabled: true
+
+  LineEndings:
+    enabled: true
