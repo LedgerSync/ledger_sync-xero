@@ -7,12 +7,6 @@
 /spec/reports/
 /tmp
 
-### Jekyll ###
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-
 # byebug
 .byebug_history
 
