@@ -4,8 +4,8 @@ require 'ledger_sync'
 
 module LedgerSync
   module Xero
-    def self.root
-      File.expand_path('../..', __dir__)
+    def self.root(*paths)
+      File.join(File.expand_path('../..', __dir__), *paths.map(&:to_s))
     end
   end
 end
