@@ -51,8 +51,6 @@ module LedgerSync
 
       TAX_TYPE = {
         # Australia
-        # 'output' => 'OUTPUT',
-        # 'input' => 'INPUT',
         'exempt_expenses' => 'EXEMPTEXPENSES',
         'exempt_output' => 'EXEMPTOUTPUT',
         'bas_excluded' => 'BASEXCLUDED',
@@ -68,10 +66,8 @@ module LedgerSync
 
         # New Zeland
         'input_2' => 'INPUT2',
-        # 'none' => 'NONE',
         'zero_rated' => 'ZERORATED',
         'output_2' => 'OUTPUT2',
-        # 'gst_on_imports' => 'GSTONIMPORTS',
 
         # United Kingdom
         'capex_input' => 'CAPEXINPUT',
@@ -85,11 +81,6 @@ module LedgerSync
         'ec_zero_output' => 'ECZROUTPUT',
         'ec_zero_output_services' => 'ECZROUTPUTSERVICES',
         'exempt_input' => 'EXEMPTINPUT',
-        # 'exempt_output' => 'EXEMPTOUTPUT',
-        # 'gst_on_imports' => 'GSTONIMPORTS',
-        # 'input_2' => 'INPUT2',
-        # 'none' => 'NONE',
-        # 'output_2' => 'OUTPUT2',
         'reverse_charges' => 'REVERSECHARGES',
         'rr_input' => 'RRINPUT',
         'rr_output' => 'RROUTPUT',
@@ -99,10 +90,6 @@ module LedgerSync
         'zero_rated_output' => 'ZERORATEDOUTPUT',
 
         # United States
-        # 'input' => 'INPUT',
-        # 'none' => 'NONE',
-        # 'output' => 'OUTPUT',
-        # 'gst_on_imports' => 'GSTONIMPORTS',
 
         # Singapore
         'bl_input' => 'BLINPUT',
@@ -112,19 +99,14 @@ module LedgerSync
         'esn_33_output' => 'ESN33OUTPUT',
         'igds_input_2' => 'IGDSINPUT2',
         'im_input_2' => 'IMINPUT2',
-        # 'input' => 'INPUT',
         'me_input' => 'MEINPUT',
-        # 'none' => 'NONE',
         'nr_input' => 'NRINPUT',
         'op_input' => 'OPINPUT',
         'os_output' => 'OSOUTPUT',
-        # 'output' => 'OUTPUT',
         'tx_ess_input' => 'TXESSINPUT',
         'tx_n33_input' => 'TXN33INPUT',
         'tx_pet_input' => 'TXPETINPUT',
         'tx_re_input' => 'TXREINPUT',
-        # 'zero_rated_input' => 'ZERORATEDINPUT',
-        # 'zero_rated_output' => 'ZERORATEDOUTPUT',
 
         # South Africa
         'acc_28_plus' => 'ACC28PLUS',
@@ -132,30 +114,17 @@ module LedgerSync
         'bad_debt' => 'BADDEBT',
         'cap_ex_input' => 'CAPEXINPUT',
         'cap_ex_input_2' => 'CAPEXINPUT2',
-        # 'exempt_input' => 'EXEMPTINPUT',
-        # 'exempt_output' => 'EXEMPTOUTPUT',
         'gst_on_cap_imports' => 'GSTONCAPIMPORTS',
         'im_input' => 'IMINPUT',
-        # 'input' => 'INPUT',
-        # 'input_2' => 'INPUT2',
         'input_3' => 'INPUT3',
         'input_4' => 'INPUT4',
-        # 'none' => 'NONE',
-        # 'output' => 'OUTPUT',
         'other_input' => 'OTHERINPUT',
         'other_output' => 'OTHEROUTPUT',
-        # 'output' => 'OUTPUT',
-        # 'output_2' => 'OUTPUT2',
         'output_3' => 'OUTPUT3',
         'output_4' => 'OUTPUT4',
         'sh_output' => 'SHOUTPUT',
-        # 'sr_output' => 'SROUTPUT',
         'sr_output_2' => 'SROUTPUT2',
-        # 'zero_rated' => 'ZERORATED',
-        # 'zero_rated_output' => 'ZERORATEDOUTPUT',
-        'zr_input' => 'ZRINPUT',
-
-
+        'zr_input' => 'ZRINPUT'
       }.freeze
 
       attribute :Code, type: Type::String
@@ -168,16 +137,6 @@ module LedgerSync
       attribute :CurrencyCode, type: Type::String
       attribute :TaxType, type: Type::String
       attribute :Class, type: Type::StringFromSet.new(values: CLASS_TYPES.keys)
-
-      # TODO: Optional ?
-      # attribute :EnablePaymentsToAccount, type: Type::Boolean
-      # attribute :ShowInExpenseClaims, type: Type::Boolean
-      # attribute :SystemAccount, type: Type::
-      # attribute :ReportingCode, type: Type::
-      # attribute :ReportingCodeName, type: Type::
-      # attribute :HasAttachments, type: Type::Boolean
-      # attribute :UpdatedDateUTC, type: Type::Date
-      # attribute :AddToWatchlist, type: Type::Boolean
     end
   end
 end
