@@ -135,7 +135,7 @@ module LedgerSync
       attribute :Description, type: Type::String
       attribute :BankAccountTypes, type: Type::StringFromSet.new(values: BANK_ACCOUNT_TYPES.keys)
       attribute :CurrencyCode, type: Type::String
-      attribute :TaxType, type: Type::String
+      attribute :TaxType, type: Type::StringFromSet.new(values: TAX_TYPE.keys)
       attribute :Class, type: Type::StringFromSet.new(values: CLASS_TYPES.keys)
     end
   end
