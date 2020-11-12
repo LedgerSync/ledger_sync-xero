@@ -2,10 +2,10 @@
 
 module LedgerSync
   module Xero
-    class Contact
-      class Serializer < Xero::Deserializer
+    class Account
+      class Deserializer < Xero::Deserializer
         attribute :ledger_id,
-                  resource_attribute: 'AccountID'
+                  hash_attribute: 'AccountID'
         attribute :Code
         attribute :Name
         attribute :BankAccountNumber
