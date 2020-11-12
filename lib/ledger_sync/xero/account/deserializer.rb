@@ -8,14 +8,14 @@ module LedgerSync
                   resource_attribute: 'AccountID'
         attribute :Code
         attribute :Name
-        attribute :Type
         attribute :BankAccountNumber
-        attribute :Status
         attribute :Description
-        attribute :BankAccountTypes
         attribute :CurrencyCode
-        attribute :TaxType
-        attribute :Class
+        mapping :Type, hash: Account::TYPES.invert
+        mapping :Status, hash: Account::STATUS_CODES.invert
+        mapping :BankAccountTypes, hash: Account::BANK_ACCOUNT_TYPES.invert
+        mapping :TaxType, hash: Account::TAX_TYPE.invert
+        mapping :Class, hash: Account::CLASS_TYPES.invert
       end
     end
   end
