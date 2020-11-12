@@ -8,14 +8,14 @@ module LedgerSync
                   resource_attribute: :ledger_id
         attribute :Code
         attribute :Name
-        attribute :Type
         attribute :BankAccountNumber
-        attribute :Status
         attribute :Description
-        attribute :BankAccountTypes
         attribute :CurrencyCode
-        attribute :TaxType
-        attribute :Class
+        mapping :Type, hash: Account::TYPES
+        mapping :Status, hash: Account::STATUS_CODES
+        mapping :BankAccountTypes, hash: Account::BANK_ACCOUNT_TYPES
+        mapping :TaxType, hash: Account::TAX_TYPE
+        mapping :Class, hash: Account::CLASS_TYPES
       end
     end
   end
