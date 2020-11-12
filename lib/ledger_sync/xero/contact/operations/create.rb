@@ -4,7 +4,7 @@ module LedgerSync
   module Xero
     class Contact
       module Operations
-        class Create < Xero::Operation::Create
+        class Create < Xero::Operation::CreatePost
           class Contract < LedgerSync::Ledgers::Contract
             params do
               required(:external_id).filled(:string)

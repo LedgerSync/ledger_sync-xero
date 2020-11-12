@@ -5,7 +5,7 @@ require_relative '../operation'
 module LedgerSync
   module Xero
     class Operation
-      class Create
+      class CreatePost
         include Xero::Operation::Mixin
 
         private
