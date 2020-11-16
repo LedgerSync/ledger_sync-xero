@@ -39,6 +39,16 @@ module LedgerSync
             end
           end
 
+          def operate_creator(method: :post)
+            response_to_operation_result(
+              response: client.send(
+                method,
+                path: ledger_resource_type_for_path,
+                payload: [serializer.serialize(resource: resource)]
+              )
+            )
+          end
+
           def perform
             super
           rescue LedgerSync::Error::OperationError, OAuth2::Error => e
