@@ -147,12 +147,12 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
       )
   end
 
-  def stub_create_for_record
-    send("stub_#{xero_resource_type}_create")
+  def stub_create_for_record(**params)
+    send("stub_#{xero_resource_type}_create", params.compact)
   end
 
-  def stub_create_request(body:, url:)
-    stub_request(:post, url)
+  def stub_create_request(body:, url:, method: :post)
+    stub_request(method, url)
       .with(
         headers: authorized_headers(write: true)
       )
@@ -194,8 +194,8 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     send("stub_#{xero_resource_type}_search")
   end
 
-  def stub_update_for_record(params: {})
-    send("stub_#{xero_resource_type}_update", params)
+  def stub_update_for_record(args: {})
+    send("stub_#{xero_resource_type}_update", args)
   end
 
   def stub_update_request(args = {})
@@ -225,10 +225,12 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
       )
     end
 
-    define_method("stub_#{record}_create") do
+    define_method("stub_#{record}_create") do |args = {}|
+      method = args.fetch(:api_method, :post)
       stub_create_request(
         body: opts.hash,
-        url: send(url_method_name)
+        url: send(url_method_name),
+        method: method
       )
     end
 

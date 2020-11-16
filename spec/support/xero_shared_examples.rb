@@ -15,6 +15,7 @@ RSpec.shared_examples 'a xero operation' do
   end
 
   let(:request_params) { described_class.new(client: client, resource: nil).request_params }
+  api_method = metadata[:api_method]
 
   before do
     case described_class.operation_method
@@ -35,7 +36,7 @@ RSpec.shared_examples 'a xero operation' do
     before do
       case described_class.operation_method
       when :create
-        stub_create_for_record
+        stub_create_for_record(api_method: api_method)
       when :delete
         resource.ledger_id = xero_records.send(record).id
         stub_delete_for_record
