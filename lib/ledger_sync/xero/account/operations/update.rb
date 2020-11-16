@@ -12,13 +12,13 @@ module LedgerSync
               required(:Code).maybe(:string)
               required(:Name).maybe(:string)
               required(:BankAccountNumber).maybe(:string)
-              required(:Description).maybe(:string)
+              # required(:Description).maybe(:string)
               required(:CurrencyCode).maybe(:string)
               required(:Type).maybe(:string)
               required(:Status).maybe(:string)
-              required(:BankAccountTypes).maybe(:string)
-              required(:TaxType).maybe(:string)
-              required(:Class).maybe(:string)
+              required(:BankAccountType).maybe(:string)
+              # required(:TaxType).maybe(:string)
+              # required(:Class).maybe(:string)
             end
           end
         end
