@@ -38,27 +38,31 @@ module LedgerSync
         oauth_client.authorization_url(redirect_uri: redirect_uri)
       end
 
-      def find(path:)
+      def request_with_method(args = {})
+        path = args.fetch(:path)
         url = "#{ROOT_URI}/#{path.capitalize}"
+        method = args.fetch(:method, :get)
+        payload = args.fetch(:payload, nil)
+        body = payload ? { path.capitalize => payload } : nil
 
         request(
           headers: oauth_headers,
-          method: :get,
+          method: method,
+          body: body,
           url: url
         )
       end
 
-      def post(path:, payload:)
-        url = "#{ROOT_URI}/#{path.capitalize}"
+      def find(path:)
+        request_with_method(path: path)
+      end
 
-        request(
-          headers: oauth_headers,
-          method: :post,
-          body: {
-            path.capitalize => payload
-          },
-          url: url
-        )
+      def post(path:, payload:)
+        request_with_method(payload: payload, method: :post, path: path)
+      end
+
+      def put(path:, payload:)
+        request_with_method(payload: payload, method: :put, path: path)
       end
 
       def oauth_headers
