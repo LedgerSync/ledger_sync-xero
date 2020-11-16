@@ -2,10 +2,10 @@
 
 module LedgerSync
   module Xero
-    class Contact
+    class Account
       module Operations
         class Update < Xero::Operation::UpdatePost
-          class Account < LedgerSync::Ledgers::Contract
+          class Contract < LedgerSync::Ledgers::Contract
             params do
               required(:external_id).filled(:string)
               required(:ledger_id).filled(:nil)
