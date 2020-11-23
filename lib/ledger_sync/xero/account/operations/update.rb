@@ -20,6 +20,10 @@ module LedgerSync
               # required(:TaxType).maybe(:string)
               # required(:Class).maybe(:string)
             end
+
+            rule(:Status) do
+              key.failure('Cannot update Status and Account Details in the same call') if ([:Status] & values.keys).any?
+            end
           end
         end
       end
