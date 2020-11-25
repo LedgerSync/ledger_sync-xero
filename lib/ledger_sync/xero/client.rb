@@ -40,7 +40,7 @@ module LedgerSync
 
       def request_with_method(args = {})
         path = args.fetch(:path)
-        url = "#{ROOT_URI}/#{path.capitalize}"
+        url = self.class.api_url(path: path)
         method = args.fetch(:method, :get)
         body = args.fetch(:payload, nil)
 
@@ -109,6 +109,21 @@ module LedgerSync
           method: method,
           url: url
         ).perform
+      end
+
+      def self.api_url(args = {})
+        path    = args.fetch(:path)
+        params  = args.fetch(:params, {})
+
+        ret = File.join(ROOT_URI, path)
+
+        if params.present?
+          uri = URI(ret)
+          uri.query = params.to_query
+          ret = uri.to_s
+        end
+
+        ret
       end
 
       def self.new_from_env(**override)

@@ -44,11 +44,7 @@ RSpec.shared_examples 'a xero operation' do
         stub_find_for_record
       when :update
         resource.ledger_id = xero_records.send(record).id
-        stub_update_for_record(
-          ledger_id_in_path: described_class.ledger_id_in_path?,
-          request_body_as_array: described_class.request_body_as_array?,
-          request_method: described_class.request_method
-        )
+        stub_update_for_record
       end
     end
 

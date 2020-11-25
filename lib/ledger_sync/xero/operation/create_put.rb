@@ -5,13 +5,16 @@ require_relative '../operation'
 module LedgerSync
   module Xero
     class Operation
-      class CreatePut
-        include Xero::Operation::Mixin
+      module CreatePut
+        def self.included(base)
+          base.include Xero::Operation::Create
+          base.extend ClassMethods
+        end
 
-        private
-
-        def operate
-          operate_creator method: :put
+        module ClassMethods
+          def request_method
+            :put
+          end
         end
       end
     end

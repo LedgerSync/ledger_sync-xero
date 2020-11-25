@@ -12,10 +12,6 @@ module LedgerSync
           false
         end
 
-        def self.request_body_as_array?
-          true
-        end
-
         def self.request_method
           :put
         end

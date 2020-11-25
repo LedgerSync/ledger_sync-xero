@@ -4,7 +4,9 @@ module LedgerSync
   module Xero
     class Account
       module Operations
-        class Create < Xero::Operation::CreatePut
+        class Create
+          include Xero::Operation::CreatePut
+
           class Contract < LedgerSync::Ledgers::Contract
             params do
               required(:external_id).filled(:string)
@@ -20,6 +22,10 @@ module LedgerSync
               # required(:TaxType).maybe(:string)
               # required(:Class).maybe(:string)
             end
+          end
+
+          def self.request_body_as_array?
+            false
           end
         end
       end

@@ -5,7 +5,7 @@ require_relative '../operation'
 module LedgerSync
   module Xero
     class Operation
-      module Update
+      module Create
         module InstanceMethods
           private
 
