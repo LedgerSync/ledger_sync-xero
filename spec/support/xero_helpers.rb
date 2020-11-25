@@ -127,8 +127,11 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     send("stub_#{xero_resource_type}_create", params.compact)
   end
 
-  def stub_create_request(body:, url:, method: :post)
-    stub_request(method, url)
+  def stub_create_request(args = {})
+    body = args.fetch(:body, '')
+    url = args.fetch(:url)
+
+    stub_request(described_class.request_method, url)
       .with(
         headers: authorized_headers(write: true)
       )
@@ -181,7 +184,7 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     body = args.fetch(:body, '')
     url = args.fetch(:url)
 
-    stub_request(:post, url)
+    stub_request(described_class.request_method, url)
       .with(
         headers: authorized_headers(write: true)
       )

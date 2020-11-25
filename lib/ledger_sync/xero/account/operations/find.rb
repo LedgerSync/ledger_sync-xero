@@ -4,7 +4,9 @@ module LedgerSync
   module Xero
     class Account
       module Operations
-        class Find < Xero::Operation::Find
+        class Find
+          include Xero::Operation::Find
+
           class Contract < LedgerSync::Ledgers::Contract
             params do
               optional(:external_id).filled(:string)
