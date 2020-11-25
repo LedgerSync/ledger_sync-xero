@@ -21,6 +21,7 @@ module LedgerSync
             @ledger_resource_path ||= "#{ledger_resource_type_for_path}/#{resource.ledger_id}"
           end
 
+          # TODO(ananthu): This needs to be a class method
           def ledger_resource_type_for_path
             Util::StringHelpers.camelcase(xero_resource_type.pluralize)
           end
@@ -57,6 +58,7 @@ module LedgerSync
             client.update_secrets_in_dotenv
           end
 
+          # TODO(ananthu): This needs to be a class method, use Core:InferredResourceClass and InferredClientClient
           def xero_resource_type
             @xero_resource_type ||= client.class.ledger_resource_type_for(resource_class: resource.class)
           end

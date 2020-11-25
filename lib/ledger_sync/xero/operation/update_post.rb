@@ -1,17 +1,23 @@
 # frozen_string_literal: true
 
-require_relative '../operation'
+require_relative '../operation/update'
 
 module LedgerSync
   module Xero
     class Operation
       class UpdatePost
-        include Xero::Operation::Mixin
+        include Xero::Operation::Update
 
-        private
+        def self.ledger_id_in_path?
+          true
+        end
 
-        def operate
-          operate_creator
+        def self.request_body_as_array?
+          false
+        end
+
+        def self.request_method
+          :post
         end
       end
     end

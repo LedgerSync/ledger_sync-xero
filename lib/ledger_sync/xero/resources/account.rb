@@ -3,7 +3,6 @@
 module LedgerSync
   module Xero
     class Account < Xero::Resource
-
       TYPES = {
         'bank' => 'BANK',
         'current' => 'CURRENT',
@@ -27,7 +26,7 @@ module LedgerSync
         'payg_liability' => 'PAYGLIABILITY',
         'superannuation_expense' => 'SUPERANNUATIONEXPENSE',
         'superannuation_liability' => 'SUPERANNUATIONLIABILITY',
-        'wages_expense' => 'WAGESEXPENSE',
+        'wages_expense' => 'WAGESEXPENSE'
       }.freeze
 
       CLASS_TYPES = {

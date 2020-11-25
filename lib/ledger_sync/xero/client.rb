@@ -42,8 +42,7 @@ module LedgerSync
         path = args.fetch(:path)
         url = "#{ROOT_URI}/#{path.capitalize}"
         method = args.fetch(:method, :get)
-        payload = args.fetch(:payload, nil)
-        body = payload ? { path.capitalize => payload } : nil
+        body = args.fetch(:payload, nil)
 
         request(
           headers: oauth_headers,

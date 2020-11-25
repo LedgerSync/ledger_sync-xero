@@ -11,7 +11,6 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
   end
 
   let(:resource) do
-
     LedgerSync::Xero::Account.new(
       Name: "Test Account Name #{test_run_id} #{FactoryBot.rand_id}",
       Code: rand(1000).to_s,
@@ -28,4 +27,3 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
 
   it_behaves_like 'a full xero resource'
 end
-

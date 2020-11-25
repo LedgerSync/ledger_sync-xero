@@ -14,10 +14,7 @@ RSpec.shared_examples 'a xero operation' do
     end
   end
 
-  let(:request_params) { described_class.new(client: client, resource: nil).request_params }
-  api_method = metadata[:api_method]
-  api_body = metadata[:api_body]
-  api_id = metadata[:api_id]
+  # let(:request_params) { described_class.new(client: client, resource: nil).request_params }
 
   before do
     case described_class.operation_method
@@ -38,7 +35,7 @@ RSpec.shared_examples 'a xero operation' do
     before do
       case described_class.operation_method
       when :create
-        stub_create_for_record(api_method: api_method)
+        stub_create_for_record
       when :delete
         resource.ledger_id = xero_records.send(record).id
         stub_delete_for_record
@@ -47,7 +44,11 @@ RSpec.shared_examples 'a xero operation' do
         stub_find_for_record
       when :update
         resource.ledger_id = xero_records.send(record).id
-        stub_update_for_record({api_id: api_id, api_body: api_body})
+        stub_update_for_record(
+          ledger_id_in_path: described_class.ledger_id_in_path?,
+          request_body_as_array: described_class.request_body_as_array?,
+          request_method: described_class.request_method
+        )
       end
     end
 

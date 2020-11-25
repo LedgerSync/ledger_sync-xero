@@ -194,8 +194,8 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     send("stub_#{xero_resource_type}_search")
   end
 
-  def stub_update_for_record(**params)
-    send("stub_#{xero_resource_type}_update", params.compact)
+  def stub_update_for_record(args = {})
+    send("stub_#{xero_resource_type}_update", args)
   end
 
   def stub_update_request(args = {})
@@ -258,6 +258,15 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
       params = args.fetch(:params, {})
       id = args.fetch(:id, nil)
       body = args.fetch(:body, opts.hash)
+
+      if args.fetch(:request_body_as_array?)
+        body = {
+          client.ledger_resource_type_for_path => [
+            serializer.serialize(resource: resource)
+          ]
+        }
+      end
+
       stub_update_request(
         body: body,
         url: send(
