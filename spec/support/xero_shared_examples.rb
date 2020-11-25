@@ -16,6 +16,8 @@ RSpec.shared_examples 'a xero operation' do
 
   let(:request_params) { described_class.new(client: client, resource: nil).request_params }
   api_method = metadata[:api_method]
+  api_body = metadata[:api_body]
+  api_id = metadata[:api_id]
 
   before do
     case described_class.operation_method
@@ -45,7 +47,7 @@ RSpec.shared_examples 'a xero operation' do
         stub_find_for_record
       when :update
         resource.ledger_id = xero_records.send(record).id
-        stub_update_for_record
+        stub_update_for_record({api_id: api_id, api_body: api_body})
       end
     end
 
