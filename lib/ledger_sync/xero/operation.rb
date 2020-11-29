@@ -16,7 +16,7 @@ module LedgerSync
           end
 
           def ledger_resource_path(ledger_id:)
-            parts = [ledger_resource_type_for_path.pluralize]
+            parts = [ledger_resource_type_for_path]
             parts << ledger_id if ledger_id_in_path? && ledger_id.present?
             File.join(*parts)
           end
@@ -24,7 +24,7 @@ module LedgerSync
           def ledger_resource_type_for_path
             Util::StringHelpers.camelcase(
               Client.ledger_resource_type_for(resource_class: inferred_resource_class)
-            )
+            ).pluralize
           end
 
           def request_body(body:)
@@ -52,7 +52,7 @@ module LedgerSync
 
           def response_to_operation_result(response:)
             resource_body = if self.class.request_body_as_array?
-                              response.body[self.class.ledger_resource_type_for_path.to_s.capitalize]&.first
+                              response.body[self.class.ledger_resource_type_for_path]&.first
                             else
                               response.body
                             end

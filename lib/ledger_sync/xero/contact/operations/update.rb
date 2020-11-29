@@ -13,6 +13,10 @@ module LedgerSync
               required(:EmailAddress).maybe(:string)
             end
           end
+
+          def self.request_body_as_array?
+            true
+          end
         end
       end
     end
