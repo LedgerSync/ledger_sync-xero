@@ -39,7 +39,9 @@ module LedgerSync
 
       STATUS_CODES = {
         'active' => 'ACTIVE',
-        'archived' => 'ARCHIVED'
+        'archived' => 'ARCHIVED',
+        # Needed when new account is created.
+        'ok' => 'OK'
       }.freeze
 
       BANK_ACCOUNT_TYPES = {
