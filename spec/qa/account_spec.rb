@@ -11,17 +11,12 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
   end
 
   let(:resource) do
+    #  Credit Card or Paypal accounts not supported by Xero for now.
     LedgerSync::Xero::Account.new(
       Name: "Test Account Name #{test_run_id} #{FactoryBot.rand_id}",
       Code: rand(1000).to_s,
       Type: 'equity',
       BankAccountNumber: FactoryBot.rand_id,
-      Status: 'active',
-      Description: "Test Account Description #{test_run_id}",
-      BankAccountType: 'paypal',
-      CurrencyCode: 'USD',
-      TaxType: 'input',
-      Class: 'asset'
     )
   end
 
