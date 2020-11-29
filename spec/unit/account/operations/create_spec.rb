@@ -11,6 +11,10 @@ RSpec.describe LedgerSync::Xero::Account::Operations::Create, unit: true do
     it { expect(described_class.request_body_as_array?).to be_falsey }
   end
 
+  describe '.ledger_id_in_path?' do
+    it { expect(described_class.ledger_id_in_path?).to be_falsey }
+  end
+
   describe '.ledger_resource_path' do
     it { expect(described_class.ledger_resource_path(ledger_id: 'asdf')).to eq('Accounts') }
   end
