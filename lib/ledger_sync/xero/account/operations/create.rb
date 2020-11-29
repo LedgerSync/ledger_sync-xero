@@ -9,8 +9,8 @@ module LedgerSync
 
           class Contract < LedgerSync::Ledgers::Contract
             params do
-              required(:external_id).filled(:string)
               required(:ledger_id).value(:nil)
+              required(:external_id).filled(:string)
               required(:Code).maybe(:string)
               required(:Name).maybe(:string)
               required(:BankAccountNumber).maybe(:string)
