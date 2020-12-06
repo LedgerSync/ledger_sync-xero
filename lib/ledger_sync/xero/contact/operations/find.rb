@@ -15,6 +15,10 @@ module LedgerSync
               optional(:EmailAddress).maybe(:string)
             end
           end
+
+          def self.ledger_id_in_path?
+            true
+          end
         end
       end
     end

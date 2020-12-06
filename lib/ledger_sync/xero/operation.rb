@@ -36,6 +36,10 @@ module LedgerSync
               body
             end
           end
+
+          def response_body_as_array?
+            true # Default
+          end
         end
 
         module InstanceMethods
@@ -51,7 +55,7 @@ module LedgerSync
           end
 
           def response_to_operation_result(response:)
-            resource_body = if self.class.request_body_as_array?
+            resource_body = if self.class.response_body_as_array?
                               response.body[self.class.ledger_resource_type_for_path]&.first
                             else
                               response.body
