@@ -23,6 +23,14 @@ module LedgerSync
               optional(:Class).maybe(:string)
             end
           end
+
+          def self.ledger_id_in_path?
+            true
+          end
+
+          def self.response_body_as_array?
+            true
+          end
         end
       end
     end

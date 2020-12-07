@@ -27,6 +27,10 @@ module LedgerSync
           def self.request_body_as_array?
             false
           end
+
+          def self.response_body_as_array?
+            true
+          end
         end
       end
     end
