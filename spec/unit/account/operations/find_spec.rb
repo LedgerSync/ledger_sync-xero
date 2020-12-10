@@ -12,11 +12,11 @@ RSpec.describe LedgerSync::Xero::Account::Operations::Find, unit: true do
   end
 
   describe '.ledger_id_in_path?' do
-    it { expect(described_class.ledger_id_in_path?).to be_falsey }
+    it { expect(described_class.ledger_id_in_path?).to be_truthy }
   end
 
   describe '.ledger_resource_path' do
-    it { expect(described_class.ledger_resource_path(ledger_id: 'account_id')).to eq('Accounts') }
+    it { expect(described_class.ledger_resource_path(ledger_id: 'account_id')).to eq('Accounts/account_id') }
   end
 
   describe '.request_body' do

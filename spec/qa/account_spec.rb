@@ -2,6 +2,17 @@
 
 require 'spec_helper'
 
+def new_account(test_run_id:)
+	#  Credit Card or Paypal accounts not supported by Xero for now.
+	LedgerSync::Xero::Account.new(
+		Name: "Test Account Name #{test_run_id} #{FactoryBot.rand_id}",
+		Code: rand(10_000).to_s,
+		Type: 'expense',
+		BankAccountNumber: FactoryBot.rand_id,
+		CurrencyCode: 'USD'
+	)
+end
+
 RSpec.describe LedgerSync::Xero::Account, qa: true do
   let(:client) { xero_client }
   let(:attribute_updates) do
@@ -11,14 +22,7 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
   end
 
   let(:resource) do
-    #  Credit Card or Paypal accounts not supported by Xero for now.
-    LedgerSync::Xero::Account.new(
-      Name: "Test Account Name #{test_run_id} #{FactoryBot.rand_id}",
-      Code: rand(10_000).to_s,
-      Type: 'expense',
-      BankAccountNumber: FactoryBot.rand_id,
-      CurrencyCode: 'USD'
-    )
+		new_account(test_run_id: test_run_id)
   end
 
   it_behaves_like 'a full xero resource'
@@ -35,13 +39,7 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
 	end
 
 	let(:resource) do
-		LedgerSync::Xero::Account.new(
-			Name: "Test Account Name #{test_run_id} #{FactoryBot.rand_id}",
-			Code: rand(10_000).to_s,
-			Type: 'expense',
-			BankAccountNumber: FactoryBot.rand_id,
-			CurrencyCode: 'USD'
-		)
+		new_account(test_run_id: test_run_id)
 	end
 
 	it do
