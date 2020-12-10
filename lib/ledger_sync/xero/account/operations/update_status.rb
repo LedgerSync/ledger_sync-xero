@@ -13,6 +13,14 @@ module LedgerSync
 							required(:Status).filled(:string)
 						end
 					end
+
+					def serializer_class
+						@serializer_class ||= StatusSerializer
+					end
+
+					def serializer
+						@serializer ||= serializer_class.new
+					end
 				end
 			end
 		end
