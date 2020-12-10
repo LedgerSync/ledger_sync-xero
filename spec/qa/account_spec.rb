@@ -6,8 +6,7 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
   let(:client) { xero_client }
   let(:attribute_updates) do
     {
-      Name: "QA Account Update #{test_run_id}",
-      Status: nil
+      Name: "QA Account Update #{test_run_id}"
     }
   end
 
@@ -23,4 +22,16 @@ RSpec.describe LedgerSync::Xero::Account, qa: true do
   end
 
   it_behaves_like 'a full xero resource'
+end
+
+
+RSpec.describe LedgerSync::Xero::Account, qa: true do
+  let(:client) { xero_client }
+  let(:attribute_updates) do
+    {
+			Status: ''
+    }
+	end
+
+
 end
