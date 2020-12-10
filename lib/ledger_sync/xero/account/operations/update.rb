@@ -15,7 +15,7 @@ module LedgerSync
               # required(:Description).maybe(:string)
               required(:CurrencyCode).maybe(:string)
               required(:Type).maybe(:string)
-              required(:Status).maybe(:string)
+              # required(:Status).(:string)
               required(:BankAccountType).maybe(:string)
               # required(:TaxType).maybe(:string)
               # required(:Class).maybe(:string)

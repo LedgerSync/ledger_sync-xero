@@ -11,8 +11,15 @@ module LedgerSync
         attribute :BankAccountNumber
         # attribute :Description
         attribute :CurrencyCode
+
+        attribute :Status do
+          nil
+        end
+
         mapping :Type, hash: Account::TYPES
-        mapping :Status, hash: Account::STATUS_CODES
+
+        # mapping :Status, hash: Account::STATUS_CODES
+
         mapping :BankAccountType, hash: Account::BANK_ACCOUNT_TYPES
         # mapping :TaxType, hash: Account::TAX_TYPE
         # mapping :Class, hash: Account::CLASS_TYPES
