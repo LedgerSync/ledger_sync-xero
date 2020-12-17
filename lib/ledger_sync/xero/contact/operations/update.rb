@@ -15,7 +15,7 @@ module LedgerSync
           end
 
           def self.request_body_as_array?
-            true
+            false
           end
         end
       end
