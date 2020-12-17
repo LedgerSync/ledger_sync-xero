@@ -27,4 +27,8 @@ RSpec.describe LedgerSync::Xero::Account::Operations::Update, unit: true do
     let(:body) { { 'asdf' => 'blah' } }
     it { expect(described_class.request_body(body: body)).to eq(body) }
   end
+
+  describe '.response_body_as_array?' do
+    it { expect(described_class.response_body_as_array?).to be_truthy }
+  end
 end
