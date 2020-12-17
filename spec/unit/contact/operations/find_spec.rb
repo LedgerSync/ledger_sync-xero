@@ -12,15 +12,22 @@ RSpec.describe LedgerSync::Xero::Contact::Operations::Find, unit: true do
   end
 
   describe '.ledger_id_in_path?' do
-    it { expect(described_class.ledger_id_in_path?).to be_falsey }
+    it { expect(described_class.ledger_id_in_path?).to be_truthy }
   end
 
   describe '.ledger_resource_path' do
-    it { expect(described_class.ledger_resource_path(ledger_id: 'contact_id')).to eq('Contacts') }
+    it {
+      # TODO: 'contact_ud' in a variable ?
+      expect(described_class.ledger_resource_path(ledger_id: 'contact_id')).to eq('Contacts/contact_id')
+    }
   end
 
   describe '.request_body' do
     let(:body) { { 'asdf' => 'blah' } }
     it { expect(described_class.request_body(body: body)).to eq(body) }
+  end
+
+  describe '.response_body_as_array?' do
+    it { expect(described_class.response_body_as_array?).to be_truthy }
   end
 end
