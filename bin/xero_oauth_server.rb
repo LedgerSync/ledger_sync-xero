@@ -11,7 +11,7 @@ gemfile do
   source 'https://rubygems.org'
   gem 'dotenv'
   # gem 'ledger_sync', git: 'https://www.github.com/LedgerSync/ledger_sync', branch: 'feature/dotenv'
-  gem 'ledger_sync', path: '../ledger_sync'
+  gem 'ledger_sync'
   gem 'ledger_sync-xero', path: './'
   gem 'rack'
   gem 'pd_ruby'
