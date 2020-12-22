@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'ledger_sync'
+require 'oauth2'
 
 module LedgerSync
   module Xero
