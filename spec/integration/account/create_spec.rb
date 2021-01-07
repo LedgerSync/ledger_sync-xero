@@ -4,6 +4,6 @@ require 'spec_helper'
 
 support :xero_shared_examples
 
-RSpec.describe LedgerSync::Xero::Account::Operations::Create, operation: true, api_method: :put do
-  it_behaves_like 'a xero operation'
+RSpec.describe LedgerSync::Xero::Account::Operations::Create, operation: true do
+ it_behaves_like 'a xero operation'
 end
