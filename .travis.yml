@@ -13,7 +13,7 @@ before_install:
   - bundle install
 script:
   - bundle exec rspec --order rand
-  - bundle exec overcommit --sign && bundle exec overcommit --run
+  - bundle exec rubocop
 jobs:
   allow_failures:
     - rvm: ruby-head
