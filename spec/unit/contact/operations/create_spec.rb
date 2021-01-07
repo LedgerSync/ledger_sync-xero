@@ -25,6 +25,6 @@ RSpec.describe LedgerSync::Xero::Contact::Operations::Create, unit: true do
 
   describe '.request_body' do
     let(:body) { { 'id' => 'contact_id' } }
-    it { expect(described_class.request_body(body: body)).to eq({'Contacts' => [body]}) }
+    it { expect(described_class.request_body(body: body)).to eq({ 'Contacts' => [body] }) }
   end
 end

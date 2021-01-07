@@ -27,5 +27,4 @@ RSpec.describe LedgerSync::Xero::Account::Operations::Find, unit: true do
   describe '.response_body_as_array?' do
     it { expect(described_class.response_body_as_array?).to be_truthy }
   end
-
 end
