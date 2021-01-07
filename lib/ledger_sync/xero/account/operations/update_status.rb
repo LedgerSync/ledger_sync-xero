@@ -14,7 +14,7 @@ module LedgerSync
           end
 
           def serializer_class
-            @serializer_class ||= StatusSerializer
+            @serializer_class ||= SerializerForStatus
           end
 
           def serializer
