@@ -42,7 +42,7 @@ RSpec.shared_examples 'a xero operation' do
       when :find
         resource.ledger_id = xero_records.send(record).id
         stub_find_for_record
-      when :update
+      when :update, :updatestatus
         resource.ledger_id = xero_records.send(record).id
         stub_update_for_record
       end

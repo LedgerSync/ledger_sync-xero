@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe LedgerSync::Xero::Account::StatusSerializer, unit: true do
+RSpec.describe LedgerSync::Xero::Account::Serializer, unit: true do
   let(:serializer) { described_class.new }
 
   it "should not serialize any other key except status" do
