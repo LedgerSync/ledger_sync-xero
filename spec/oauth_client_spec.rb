@@ -30,7 +30,7 @@ RSpec.describe LedgerSync::Xero::OAuthClient do
       allow(SecureRandom).to receive(:hex).and_return('asdfghjkl')
       url = 'https://login.xero.com/identity/connect/authorize?client_id=client_id&redirect_uri=https%3A%2F%2F' \
             'www.example.com%2F%3Fcode%3D123%26state%3Dfoo&response_type=code&scope=offline_access+openid+profile' \
-            '+email+accounting.transactions+accounting.contacts&state=asdfghjkl'
+            '+email+accounting.transactions+accounting.contacts+accounting.settings&state=asdfghjkl'
       expect(subject).to eq(url)
     end
   end
