@@ -45,7 +45,7 @@ module LedgerSync
       }.freeze
 
       BANK_ACCOUNT_TYPES = {
-        :bank         => 'BANK',
+        'bank'         => 'BANK',
         'credit_card' => 'CREDITCARD',
         'paypal'      => 'PAYPAL',
         # TODO: Non-Banking type:
