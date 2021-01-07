@@ -3,6 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe LedgerSync::Xero::Account::Operations::UpdateStatus, unit: true do
+  # TODO: Shared example for this ?
   describe '.inferred_resource_class' do
     it { expect(described_class.inferred_resource_class).to eq(LedgerSync::Xero::Account) }
   end
