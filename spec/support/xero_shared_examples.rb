@@ -14,8 +14,6 @@ RSpec.shared_examples 'a xero operation' do
     end
   end
 
-  # let(:request_params) { described_class.new(client: client, resource: nil).request_params }
-
   before do
     case described_class.operation_method
     when :create
