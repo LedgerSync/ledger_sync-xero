@@ -42,30 +42,6 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     }.merge(override)
   end
 
-  def api_record_url(args = {})
-    _record = args.fetch(:record)
-    id      = args.fetch(:id, nil)
-    params  = args.fetch(:params, {})
-
-    resource_endpoint = LedgerSync::Util::StringHelpers.camelcase(
-      xero_client.class.ledger_resource_type_for(resource_class: resource.class).pluralize
-    )
-    ret = "https://api.xero.com/api.xro/2.0/#{resource_endpoint}"
-
-    if id.present?
-      ret += '/' unless ret.end_with?('/')
-      ret += id.to_s
-    end
-
-    if params.present?
-      uri = URI(ret)
-      uri.query = params.to_query
-      ret = uri.to_s
-    end
-
-    ret
-  end
-
   def response_headers(overrides = {})
     {
       'Content-Type' => 'application/json'
@@ -147,12 +123,15 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
       )
   end
 
-  def stub_create_for_record
-    send("stub_#{xero_resource_type}_create")
+  def stub_create_for_record(**params)
+    send("stub_#{xero_resource_type}_create", params.compact)
   end
 
-  def stub_create_request(body:, url:)
-    stub_request(:post, url)
+  def stub_create_request(args = {})
+    body = args.fetch(:body, '')
+    url = args.fetch(:url)
+
+    stub_request(described_class.request_method, url)
       .with(
         headers: authorized_headers(write: true)
       )
@@ -194,15 +173,18 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     send("stub_#{xero_resource_type}_search")
   end
 
-  def stub_update_for_record(params: {})
-    send("stub_#{xero_resource_type}_update", params)
+  def stub_update_for_record(args = {})
+    send(
+      "stub_#{xero_resource_type}_update",
+      args
+    )
   end
 
   def stub_update_request(args = {})
     body = args.fetch(:body, '')
     url = args.fetch(:url)
 
-    stub_request(:post, url)
+    stub_request(described_class.request_method, url)
       .with(
         headers: authorized_headers(write: true)
       )
@@ -217,18 +199,24 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
     record = record.gsub('/', '_')
     url_method_name = "#{record}_url"
 
-    define_method(url_method_name) do |**keywords|
-      api_record_url(
-        **{
-          record: record
-        }.merge(keywords)
+    define_method(url_method_name) do |args = {}|
+      client.class.api_url(
+        path: described_class.ledger_resource_path(ledger_id: args.fetch(:id, nil))
       )
     end
 
-    define_method("stub_#{record}_create") do
+    define_method("stub_#{record}_create") do |args = {}|
+      params = args.fetch(:params, {})
+      id = args.fetch(:id, opts.id)
+      body = described_class.request_body(body: args.fetch(:body, opts.hash))
+
       stub_create_request(
-        body: opts.hash,
-        url: send(url_method_name)
+        body: body,
+        url: send(
+          url_method_name,
+          params: params,
+          id: id
+        )
       )
     end
 
@@ -254,12 +242,15 @@ module XeroHelpers # rubocop:disable Metrics/ModuleLength
 
     define_method("stub_#{record}_update") do |args = {}|
       params = args.fetch(:params, {})
-      body = args.fetch(:body, opts.hash)
+      id = args.fetch(:id, opts.id)
+      body = described_class.request_body(body: args.fetch(:body, opts.hash))
+
       stub_update_request(
         body: body,
         url: send(
           url_method_name,
-          params: params
+          params: params,
+          id: id
         )
       )
     end

@@ -38,27 +38,30 @@ module LedgerSync
         oauth_client.authorization_url(redirect_uri: redirect_uri)
       end
 
-      def find(path:)
-        url = "#{ROOT_URI}/#{path.capitalize}"
+      def request_with_method(args = {})
+        path = args.fetch(:path)
+        url = self.class.api_url(path: path)
+        method = args.fetch(:method, :get)
+        body = args.fetch(:payload, nil)
 
         request(
           headers: oauth_headers,
-          method: :get,
+          method: method,
+          body: body,
           url: url
         )
       end
 
-      def post(path:, payload:)
-        url = "#{ROOT_URI}/#{path.capitalize}"
+      def find(path:)
+        request_with_method(path: path)
+      end
 
-        request(
-          headers: oauth_headers,
-          method: :post,
-          body: {
-            path.capitalize => payload
-          },
-          url: url
-        )
+      def post(path:, payload:)
+        request_with_method(payload: payload, method: :post, path: path)
+      end
+
+      def put(path:, payload:)
+        request_with_method(payload: payload, method: :put, path: path)
       end
 
       def oauth_headers
@@ -106,6 +109,21 @@ module LedgerSync
           method: method,
           url: url
         ).perform
+      end
+
+      def self.api_url(args = {})
+        path    = args.fetch(:path)
+        params  = args.fetch(:params, {})
+
+        ret = File.join(ROOT_URI, path)
+
+        if params.present?
+          uri = URI(ret)
+          uri.query = params.to_query
+          ret = uri.to_s
+        end
+
+        ret
       end
 
       def self.new_from_env(**override)

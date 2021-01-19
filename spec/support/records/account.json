@@ -1,0 +1,13 @@
+{
+  "Accounts": [{
+    "AccountID": "ebd06280-af70-4bed-97c6-7451a454ad85",
+    "Code": "091",
+    "Name": "Business Savings Account",
+    "Type": "BANK",
+    "TaxType": "NONE",
+    "EnablePaymentsToAccount": false,
+    "BankAccountNumber": "0209087654321050",
+    "BankAccountType": "BANK",
+    "CurrencyCode": "NZD"
+  }]
+}

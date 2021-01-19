@@ -4,7 +4,9 @@ module LedgerSync
   module Xero
     class Contact
       module Operations
-        class Create < Xero::Operation::Create
+        class Create
+          include Xero::Operation::CreatePost
+
           class Contract < LedgerSync::Ledgers::Contract
             params do
               required(:external_id).filled(:string)
@@ -12,6 +14,10 @@ module LedgerSync
               required(:Name).maybe(:string)
               required(:EmailAddress).maybe(:string)
             end
+          end
+
+          def self.request_body_as_array?
+            true
           end
         end
       end
