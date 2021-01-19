@@ -14,8 +14,6 @@ RSpec.shared_examples 'a xero operation' do
     end
   end
 
-  let(:request_params) { described_class.new(client: client, resource: nil).request_params }
-
   before do
     case described_class.operation_method
     when :create
@@ -42,7 +40,7 @@ RSpec.shared_examples 'a xero operation' do
       when :find
         resource.ledger_id = xero_records.send(record).id
         stub_find_for_record
-      when :update
+      when :update, :update_status
         resource.ledger_id = xero_records.send(record).id
         stub_update_for_record
       end

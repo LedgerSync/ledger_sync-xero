@@ -14,6 +14,7 @@ module LedgerSync
         email
         accounting.transactions
         accounting.contacts
+        accounting.settings
       ].freeze
 
       class RedirectURIParser

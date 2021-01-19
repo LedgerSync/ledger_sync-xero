@@ -5,20 +5,28 @@ require_relative '../operation'
 module LedgerSync
   module Xero
     class Operation
-      class Update
-        include Xero::Operation::Mixin
+      module Update
+        module InstanceMethods
+          private
 
-        private
-
-        def operate
-          response_to_operation_result(
-            response: client.post(
-              path: ledger_resource_type_for_path,
-              payload: [
-                serializer.serialize(resource: resource)
-              ]
+          def operate
+            response_to_operation_result(
+              response: client.send(
+                self.class.request_method,
+                path: ledger_resource_path,
+                payload: request_body
+              )
             )
-          )
+          end
+
+          def request_body
+            self.class.request_body(body: serializer.serialize(resource: resource))
+          end
+        end
+
+        def self.included(base)
+          base.include Xero::Operation::Mixin
+          base.include InstanceMethods
         end
       end
     end
