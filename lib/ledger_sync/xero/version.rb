@@ -3,7 +3,7 @@
 # :nocov:
 module LedgerSync
   module Xero
-    VERSION = '0.1.1'
+    VERSION = '0.2.0'
 
     def self.version(args = {})
       pre = args.fetch(:pre, false)
