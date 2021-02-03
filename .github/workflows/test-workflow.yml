@@ -1,11 +1,10 @@
 name: Test Push Workflow
 on: [push, pull_request]
 jobs:
-  push:
+  test:
     strategy:
       matrix:
-#        ruby-version: [2.6.6, 2.6.3, 2.7.1, head]
-        ruby-version: [2.6.6]
+       ruby-version: [2.6.6, 2.6.3, 2.7.1, head]
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
