@@ -1,7 +1,7 @@
 name: Test Push Workflow
 on: [push, pull_request]
 jobs:
-  test:
+  rubocop:
     strategy:
       matrix:
        ruby-version: [2.6.6, 2.6.3, 2.7.1, head]
@@ -13,7 +13,17 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-      - name: rubocop
-        run: bundle exec rubocop
-      - name: test
-        run: bundle exec rspec --order rand
+      - run: bundle exec rubocop
+  rspec:
+    strategy:
+      matrix:
+       ruby-version: [2.6.6, 2.6.3, 2.7.1, head]
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Ruby Setup and Bundle
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - run: bundle exec rspec --order rand
