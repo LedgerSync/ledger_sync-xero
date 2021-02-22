@@ -1,4 +1,4 @@
-name: Gem Workflow
+name: Test and Deploy
 on: [push, pull_request]
 jobs:
   rubocop:
