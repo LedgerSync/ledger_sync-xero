@@ -8,7 +8,7 @@ module LedgerSync
       RSpec.describe Serializer, unit: true do
         let(:serializer) { described_class.new }
         let(:account) do
-          LedgerSync::Xero::Account.new(
+          Account.new(
             Status: 'active',
             TaxType: 'input',
             BankAccountNumber: 'test',

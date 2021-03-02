@@ -8,7 +8,7 @@ module LedgerSync
       module Operations
         RSpec.describe Update, unit: true do
           describe '.inferred_resource_class' do
-            it { expect(described_class.inferred_resource_class).to eq(LedgerSync::Xero::Contact) }
+            it { expect(described_class.inferred_resource_class).to eq(Contact) }
           end
 
           describe '.request_body_as_array?' do
