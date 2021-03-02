@@ -36,9 +36,7 @@ module LedgerSync
             it { expect(described_class.response_body_as_array?).to be_truthy }
           end
         end
-
       end
     end
   end
 end
-
