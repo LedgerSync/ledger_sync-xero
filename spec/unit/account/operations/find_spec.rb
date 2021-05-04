@@ -1,30 +1,37 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+module LedgerSync
+  module Xero
+    class Account
+      module Operations
+        RSpec.describe Find, unit: true do
+          describe '.inferred_resource_class' do
+            it { expect(described_class.inferred_resource_class).to eq(Account) }
+          end
 
-RSpec.describe LedgerSync::Xero::Account::Operations::Find, unit: true do
-  describe '.inferred_resource_class' do
-    it { expect(described_class.inferred_resource_class).to eq(LedgerSync::Xero::Account) }
-  end
+          describe '.request_body_as_array?' do
+            it { expect(described_class.request_body_as_array?).to be_falsey }
+          end
 
-  describe '.request_body_as_array?' do
-    it { expect(described_class.request_body_as_array?).to be_falsey }
-  end
+          describe '.ledger_id_in_path?' do
+            it { expect(described_class.ledger_id_in_path?).to be_truthy }
+          end
 
-  describe '.ledger_id_in_path?' do
-    it { expect(described_class.ledger_id_in_path?).to be_truthy }
-  end
+          describe '.ledger_resource_path' do
+            it { expect(described_class.ledger_resource_path(ledger_id: 'account_id')).to eq('Accounts/account_id') }
+          end
 
-  describe '.ledger_resource_path' do
-    it { expect(described_class.ledger_resource_path(ledger_id: 'account_id')).to eq('Accounts/account_id') }
-  end
+          describe '.request_body' do
+            let(:body) { { 'asdf' => 'blah' } }
+            it { expect(described_class.request_body(body: body)).to eq(body) }
+          end
 
-  describe '.request_body' do
-    let(:body) { { 'asdf' => 'blah' } }
-    it { expect(described_class.request_body(body: body)).to eq(body) }
-  end
-
-  describe '.response_body_as_array?' do
-    it { expect(described_class.response_body_as_array?).to be_truthy }
+          describe '.response_body_as_array?' do
+            it { expect(described_class.response_body_as_array?).to be_truthy }
+          end
+        end
+      end
+    end
   end
 end
