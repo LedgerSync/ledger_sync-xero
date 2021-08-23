@@ -1,19 +1,31 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require_relative '../../../lib/ledger_sync/xero/type/tax_type'
 
 module LedgerSync
   module Xero
     module Type
       RSpec.describe TaxType, unit: true do
-        let(:classWithTaxType) do
-          Class.new(Xero::Resource)
-          attribute :TaxType, type: Type::TaxType
+        # let(:custom_resource_class) do
+        #   class ClassWithTaxType < Xero::Resource do
+        #     attribute :TaxType, type: TaxType.new
+        #   end
+        # end
+
+        class ClassWithTaxType < Xero::Resource
+          attribute :TaxType, type: TaxType.new
         end
 
-        it 'should not allow invalid values' do
-          invalid_value = classWithTaxType.new TaxType: 'exempt_expenses'
+        let(:resource) { ClassWithTaxType.new }
+
+        it 'should not allow values not included in TAX_TYPE' do
+          expect do
+            resource.TaxType = 'random'
+          end.to raise_error
+        end
+
+        it 'should allow values included in TAX_TYPE' do
+          resource.TaxType = 'exempt_expenses'
         end
       end
     end
