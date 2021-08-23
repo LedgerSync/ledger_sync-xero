@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../type/tax_type'
+
 module LedgerSync
   module Xero
     class Account
@@ -11,10 +13,11 @@ module LedgerSync
         attribute :BankAccountNumber
         attribute :Description
         attribute :CurrencyCode
-        mapping :Type, hash: Account::TYPES.invert
+
+        mapping :Type, hash: Account::ACCOUNT_TYPES.invert
         mapping :Status, hash: Account::STATUS_CODES.invert
         mapping :BankAccountType, hash: Account::BANK_ACCOUNT_TYPES.invert
-        mapping :TaxType, hash: Account::TAX_TYPE.invert
+        mapping :TaxType, hash: Xero::Type::TaxType::TAX_TYPE.invert
         mapping :Class, hash: Account::CLASS_TYPES.invert
       end
     end

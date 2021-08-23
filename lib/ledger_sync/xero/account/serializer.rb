@@ -16,7 +16,7 @@ module LedgerSync
           nil
         end
 
-        mapping :Type, hash: Account::TYPES
+        mapping :Type, hash: Account::ACCOUNT_TYPES
 
         # mapping :Status, hash: Account::STATUS_CODES
 
