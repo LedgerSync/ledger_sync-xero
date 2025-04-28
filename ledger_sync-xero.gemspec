@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('byebug')
   spec.add_development_dependency('climate_control')
   spec.add_development_dependency('coveralls', '~> 0.8.23')
-  spec.add_development_dependency('factory_bot', '~> 6.1.0')
+  spec.add_development_dependency('factory_bot', '~> 6.4.5')
   spec.add_development_dependency('overcommit', '~> 0.57.0')
   spec.add_development_dependency('rake', '~> 13.0')
   spec.add_development_dependency('rspec', '~> 3.2')
