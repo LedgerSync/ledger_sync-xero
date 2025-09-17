@@ -141,7 +141,7 @@ GEM
     rake (13.0.1)
     regexp_parser (1.8.2)
     resonad (1.4.0)
-    rexml (3.3.9)
+    rexml (3.4.2)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
